@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include  "bsp.h"
+#include "../../User_Lib/user_music.h"
 
 /* USER CODE END Includes */
 
@@ -88,6 +90,7 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,6 +100,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    LOOP_EVENT_Handle();
   }
   /* USER CODE END 3 */
 }
