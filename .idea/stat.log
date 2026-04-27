@@ -1,0 +1,8 @@
+{"ts":1777256726332,"action":"PROJECT_OPENED","tags":{"PROJECT_NAME":"KUST-RoboMaster-F407-Board"}}
+{"ts":1777256781469,"action":"IDE_DEACTIVATED"}
+{"ts":1777256812001,"action":"IDE_ACTIVATED"}
+{"ts":1777256933657,"action":"FILE_OPENED","file":"/Core/Inc/main.h","tags":{"FILE_LINE_OF_CODE":"70"}}
+{"ts":1777256937750,"action":"IDE_DEACTIVATED"}
+{"ts":1777256941103,"action":"IDE_ACTIVATED"}
+{"ts":1777256982567,"action":"FILE_CLOSED","file":"/Core/Inc/main.h","tags":{"FILE_LINE_OF_CODE":"70"}}
+{"ts":1777256982567,"action":"FILE_OPENED","file":"/.gitignore","tags":{"FILE_LINE_OF_CODE":"2"}}
