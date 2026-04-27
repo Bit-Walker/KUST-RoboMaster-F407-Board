@@ -2,7 +2,6 @@
 #define USER_JSCOPE_TRANSMIT_H
 
 #include "main.h"
-#ifdef HAL_TIM_MODULE_ENABLED
 
 /* 宏定义 ----------------------------------------------------------------*/
 #define JSCOPE_BUFFER_NAME      "JScope_T4F4F4F4"   // JScope 缓冲区名称
@@ -21,5 +20,4 @@ typedef struct {
 void JScope_Init(TIM_HandleTypeDef *htim);
 void JScope_Transmit(uint32_t delta_time);
 
-#endif /* HAL_TIM_MODULE_ENABLED */
 #endif // USER_JSCOPE_TRANSMIT_H

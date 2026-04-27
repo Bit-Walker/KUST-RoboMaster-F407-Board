@@ -4,24 +4,10 @@
 /* 包含头文件 -----------------------------------------------------------------*/
 #include <stdint.h>
 
-/* 宏定义 --------------------------------------------------------------------*/
-/**
- * @brief 队列默认最大长度（可在此处修改默认值）
- *        若未调用 Queue_Init 设置 max_size，则使用此默认值
- */
-#ifndef QUEUE_DEFAULT_MAX_SIZE
-#define QUEUE_DEFAULT_MAX_SIZE 32
-#endif
-
-/**
- * @brief 队列最大长度上限（防止误传超大值）
- */
-#define QUEUE_ABSOLUTE_MAX_SIZE 65535
-
 /* 类型定义 ------------------------------------------------------------------*/
 /**
- * @brief 队列节点结构体
- */
+* @brief 队列节点结构体
+*/
 typedef struct Node {
     void *data;         /* 数据指针 */
     uint16_t len;       /* 数据长度 */
@@ -29,13 +15,13 @@ typedef struct Node {
 } Node;
 
 /**
- * @brief 队列结构体
- */
+* @brief 队列结构体
+*/
 typedef struct {
-    Node *front;    /* 队首指针 */
-    Node *rear;     /* 队尾指针 */
-    Node *popped;   /* 最近出队的节点指针 */
-    uint16_t size;  /* 当前队列大小 */
+    Node *front;       /* 队首指针 */
+    Node *rear;        /* 队尾指针 */
+    Node *popped;      /* 最近出队的节点指针 */
+    uint16_t size;     /* 当前队列大小 */
     uint16_t max_size; /* 队列最大长度上限 */
 } Queue;
 
@@ -46,7 +32,6 @@ Node* Queue_Pop(Queue *queue);
 uint8_t Queue_IsFull(const Queue *queue);
 uint8_t Queue_IsEmpty(const Queue *queue);
 uint16_t Queue_GetSize(const Queue *queue);
-uint16_t Queue_GetMaxSize(const Queue *queue);
 void Queue_FreeNode(Node *node);
 void Queue_Free(Queue *queue);
 

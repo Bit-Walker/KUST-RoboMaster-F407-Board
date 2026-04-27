@@ -134,3 +134,10 @@
 {"ts":1777258865074,"action":"IDE_ACTIVATED"}
 {"ts":1777258866140,"action":"IDE_DEACTIVATED"}
 {"ts":1777258896850,"action":"IDE_ACTIVATED"}
+{"ts":1777258924782,"action":"IDE_DEACTIVATED"}
+{"ts":1777258937181,"action":"IDE_ACTIVATED"}
+{"ts":1777258941997,"action":"FILE_CLOSED","file":"/User_Drives/user_pwm.h","tags":{"FILE_LINE_OF_CODE":"24"}}
+{"ts":1777258945298,"action":"FILE_OPENED","file":"/User_Drives/user_pwm.h","tags":{"FILE_LINE_OF_CODE":"24"}}
+{"ts":1777258945881,"action":"FILE_CLOSED","file":"/User_Drives/user_pwm.h","tags":{"FILE_LINE_OF_CODE":"24"}}
+{"ts":1777258947818,"action":"IDE_DEACTIVATED"}
+{"ts":1777258982415,"action":"IDE_ACTIVATED"}

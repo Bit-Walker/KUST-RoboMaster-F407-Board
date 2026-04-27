@@ -10,18 +10,8 @@
  * @param queue    队列指针
  * @param max_size 最大长度上限（0 使用默认值，最大不超过 QUEUE_ABSOLUTE_MAX_SIZE）
  */
-void Queue_Init(Queue *queue, uint16_t max_size) {
-    queue->front = NULL;
-    queue->rear  = NULL;
-    queue->popped = NULL;
-    queue->size = 0;
-    if (max_size == 0) {
-        queue->max_size = QUEUE_DEFAULT_MAX_SIZE;
-    } else if (max_size > QUEUE_ABSOLUTE_MAX_SIZE) {
-        queue->max_size = QUEUE_ABSOLUTE_MAX_SIZE;
-    } else {
-        queue->max_size = max_size;
-    }
+void Queue_Init(Queue *queue, const uint16_t max_size) {
+    queue->max_size = max_size;
 }
 
 /**
@@ -29,11 +19,11 @@ void Queue_Init(Queue *queue, uint16_t max_size) {
  * @param queue 队列指针
  * @param data  数据指针
  * @param len   数据长度
- * @note 若队列已达到最大长度上限（max_size），则丢弃新数据，不入队
+ * @note 若队列已达到最大长度上限，则丢弃新数据
  */
-void Queue_Push(Queue *queue, const void *data, uint16_t len) {
+void Queue_Push(Queue *queue, const void *data, const uint16_t len) {
     if (queue->size >= queue->max_size) {
-        return; /* 队列已满，拒绝入队 */
+        return;
     }
 
     Node *newNode = (Node*)malloc(sizeof(Node));
@@ -85,16 +75,7 @@ uint8_t Queue_IsFull(const Queue *queue) {
 }
 
 /**
- * @brief 获取队列最大长度上限
- * @param queue 队列指针
- * @return 队列的最大长度上限值
- */
-uint16_t Queue_GetMaxSize(const Queue *queue) {
-    return queue->max_size;
-}
-
-/**
- * @brief 检查队列是否为空
+* @brief 检查队列是否为空
 * @param queue 队列指针
 * @return 1: 队列为空, 0: 队列非空
 */
