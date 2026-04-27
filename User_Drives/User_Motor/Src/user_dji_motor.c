@@ -2,6 +2,7 @@
 #include <math.h>
 #include "../user_dji_motor.h"
 #include "../../Core/Inc/bsp.h"
+#ifdef HAL_CAN_MODULE_ENABLED
 
 /* 私有变量 ------------------------------------------------------------------*/
 static DJI_MOTOR_DRIVES *motor_drives[DJI_MOTOR_NUM];
@@ -191,3 +192,5 @@ void DJI_Motor_Execute(CAN_DRIVES* can_drive) {
 
     }
 }
+
+#endif /* HAL_CAN_MODULE_ENABLED */

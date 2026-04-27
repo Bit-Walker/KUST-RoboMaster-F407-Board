@@ -1,5 +1,6 @@
 #ifndef __USER_DJI_MOTOR_H__
 #define __USER_DJI_MOTOR_H__
+#ifdef HAL_CAN_MODULE_ENABLED
 
 /* 包含头文件 ----------------------------------------------------------------*/
 #include "main.h"
@@ -60,4 +61,5 @@ void DJI_Motor_Target(DJI_MOTOR_DRIVES *motor,float target);
 void DJI_Motor_Handle(CAN_DRIVES* can_drive);
 void DJI_Motor_Execute(CAN_DRIVES* can_drive);
 
+#endif /* HAL_CAN_MODULE_ENABLED */
 #endif //__USER_DJI_MOTOR_H__
