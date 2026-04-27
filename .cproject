@@ -84,15 +84,14 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Drives"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Algorithm"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Architect"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Application"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="SEGGER_RTT"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Lib"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="SEGGER_RTT"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Algorithm"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Application"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Architect"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Drives"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Lib"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="User_Status"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

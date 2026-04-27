@@ -2,12 +2,13 @@
 #ifdef HAL_GPIO_MODULE_ENABLED
 /* 包含头文件 ----------------------------------------------------------------*/
 #include "../user_led.h"
+#include <string.h>
 
 /* 函数体 --------------------------------------------------------------------*/
 
 /**
 * @brief 初始化 LED
-* @param user_led         LED 驱动结构体指针
+* @param user_led    LED 驱动结构体指针
 * @param GPIO        GPIO 端口
 * @param pin         GPIO 引脚
 * @param is_reversal 是否反转逻辑, 1 为反转, 0 为正常
