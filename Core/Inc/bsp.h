@@ -23,7 +23,11 @@ extern uint8_t JScope_RTT_UpBuffer[BUFFER_SIZE_UP];
 
 /* 接口定义 ------------------------------------------------------------------*/
 
+#include "../User_Drives/user_led.h"
+extern LED_DRIVES blue_led;
 
+#include "../User_Drives/user_uart.h"
+extern UART_DRIVES user_uart_debug;
 
 
 #endif // USER_BSP_H

@@ -24,5 +24,6 @@ uint8_t JScope_RTT_UpBuffer[BUFFER_SIZE_UP] = {0};
 
 /* 接口定义 --------------------------------------------------------------------*/
 
+LED_DRIVES blue_led = {0};
 
-
+UART_DRIVES user_uart_debug = {0};
