@@ -10,6 +10,11 @@
 #define UART_NUM              (6)         /* 开发板的 UART 总数 */
 #define UART_CALLBACK_NUM     (8)         /* 最大回调函数数量 */
 
+#define TIMER_NUM             (8)         /* 开发板的定时器总数 */
+#define TIMER_CALLBACK_NUM    (8)         /* 通用定时器回调函数数量 */
+
+#define DMA_CALLBACK_NUM      (3)         /* DMA 回调函数数量 */
+
 #define CAN_NUM               (2)         /* 开发板的 CAN 总数 */
 #define CAN_CALLBACK_NUM      (8)         /* 最大回调函数数量 */
 

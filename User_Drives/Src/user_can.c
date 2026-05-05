@@ -69,8 +69,7 @@ void CAN_Init(CAN_DRIVES* user_can, CAN_HandleTypeDef* hcan){
     HAL_CAN_Start(hcan);
     HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 
-    can_drives[can_num] = user_can;
-    can_num ++;
+    can_drives[can_num++] = user_can;
 
     // 注册到全局事件循环
     if (is_init_loop_event_sign == 0) {
@@ -86,8 +85,7 @@ void CAN_Init(CAN_DRIVES* user_can, CAN_HandleTypeDef* hcan){
 * @param callback 用户自定义的 can 总线消息接收回调函数
 */
 void CAN_RegisterCallback(CAN_DRIVES* user_can, const CAN_Callback callback){
-    user_can->callbacks[user_can->callback_num] = callback;
-    user_can->callback_num++;
+    user_can->callbacks[user_can->callback_num++] = callback;
 }
 
 /**

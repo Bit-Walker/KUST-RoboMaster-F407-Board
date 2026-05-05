@@ -33,7 +33,10 @@ void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t chan
 uint32_t PWM_Set_Duty(PWM_DRIVES *user_pwm, const float duty){
     user_pwm->duty = duty;
     const uint32_t compare_reg = (uint32_t)((float)(user_pwm->htim->Init.Period + 1) * duty);
+
+    HAL_TIM_PWM_Stop(user_pwm->htim, user_pwm->channel);
     __HAL_TIM_SET_COMPARE(user_pwm->htim, user_pwm->channel, compare_reg);
+    HAL_TIM_PWM_Start(user_pwm->htim, user_pwm->channel);
     return compare_reg;
 }
 
@@ -45,10 +48,14 @@ uint32_t PWM_Set_Duty(PWM_DRIVES *user_pwm, const float duty){
 */
 uint32_t PWM_Set_Frequency(PWM_DRIVES *user_pwm, const uint32_t freq){
     user_pwm->freq = freq;
-    const uint32_t reload_reg = user_pwm->clock / freq - 1;
-    __HAL_TIM_SET_AUTORELOAD(user_pwm->htim, reload_reg);
 
-    PWM_Set_Duty(user_pwm, user_pwm->duty);
+    const uint32_t reload_reg = user_pwm->clock / freq - 1;
+    const uint32_t compare_reg = (uint32_t)((float)(user_pwm->htim->Init.Period + 1) * user_pwm->duty);
+
+    HAL_TIM_PWM_Stop(user_pwm->htim, user_pwm->channel);
+    __HAL_TIM_SET_AUTORELOAD(user_pwm->htim, reload_reg);
+    __HAL_TIM_SET_COMPARE(user_pwm->htim, user_pwm->channel, compare_reg);
+    HAL_TIM_PWM_Start(user_pwm->htim, user_pwm->channel);
 
     return reload_reg;
 }

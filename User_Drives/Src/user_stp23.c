@@ -24,8 +24,7 @@ void STP23_Init(STP23_DRIVES *user_stp23, UART_DRIVES* user_uart) {
     user_stp23->uart = user_uart;
     UART_RegisterCallback(user_uart, STP23_Handle);
 
-    stp23_drives[stp23_num] = user_stp23;
-    stp23_num++;
+    stp23_drives[stp23_num++] = user_stp23;
 }
 
 /**
@@ -72,8 +71,7 @@ static void STP23_Handle(void* user_uart) {
 * @param callback    转换完成回调函数
 */
 void STP23_RegisterCallback(STP23_DRIVES* user_stp23, const STP23_Callback callback) {
-    user_stp23->callbacks[user_stp23->callback_num] = callback;
-    user_stp23->callback_num++;
+    user_stp23->callbacks[user_stp23->callback_num++] = callback;
 }
 
 

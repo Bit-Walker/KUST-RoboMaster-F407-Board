@@ -54,8 +54,7 @@ void UART_Init(UART_DRIVES* user_uart, UART_HandleTypeDef* huart) {
 
     Queue_Init(&user_uart->tx_queue, TX_QUEUE_LEN);
 
-    uart_drives[uart_num] = user_uart;
-    uart_num++;
+    uart_drives[uart_num++] = user_uart;
 
     HAL_UARTEx_ReceiveToIdle_DMA(huart, user_uart->rx_buffer_a, UART_BUFFER_SIZE);
 
@@ -72,8 +71,7 @@ void UART_Init(UART_DRIVES* user_uart, UART_HandleTypeDef* huart) {
 * @param callback   接收回调函数
 */
 void UART_RegisterCallback(UART_DRIVES* user_uart, const UART_Callback callback) {
-    user_uart->callbacks[user_uart->callback_num] = callback;
-    user_uart->callback_num++;
+    user_uart->callbacks[user_uart->callback_num++] = callback;
 }
 
 /**

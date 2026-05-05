@@ -27,8 +27,7 @@ void ADC_Init(ADC_DRIVES* user_adc, ADC_HandleTypeDef* hadc, const uint8_t chann
 
     HAL_ADC_Start_DMA(user_adc->hadc, (uint32_t*)user_adc->adc_value, user_adc->channel_num);
 
-    adc_drives[adc_num] = user_adc;
-    adc_num++;
+    adc_drives[adc_num++] = user_adc;
 }
 
 /**
@@ -37,8 +36,7 @@ void ADC_Init(ADC_DRIVES* user_adc, ADC_HandleTypeDef* hadc, const uint8_t chann
 * @param callback    转换完成回调函数
 */
 void ADC_RegisterCallback(ADC_DRIVES* user_adc, const ADC_Callback callback) {
-    user_adc->callbacks[user_adc->callback_num] = callback;
-    user_adc->callback_num++;
+    user_adc->callbacks[user_adc->callback_num++] = callback;
 }
 
 /**
