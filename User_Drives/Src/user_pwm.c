@@ -21,8 +21,22 @@ void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t chan
     user_pwm->clock = tim_clock;
     user_pwm->freq = user_pwm->clock / ((htim->Init.Prescaler + 1) * (__HAL_TIM_GET_AUTORELOAD(user_pwm->htim) + 1));
     user_pwm->duty = (float) __HAL_TIM_GET_COMPARE(user_pwm->htim, user_pwm->channel) / (float) (user_pwm->htim->Init.Period + 1);
-    
-    HAL_TIM_PWM_Start(htim, channel);
+}
+
+/**
+* @brief 启动 PWM 输出
+* @param user_pwm   PWM 驱动结构体指针
+*/
+void PWM_Start(const PWM_DRIVES* user_pwm){
+    HAL_TIM_PWM_Start(user_pwm->htim, user_pwm->channel);
+}
+
+/**
+* @brief 停止 PWM 输出
+* @param user_pwm   PWM 驱动结构体指针
+*/
+void PWM_Stop(const PWM_DRIVES* user_pwm){
+    HAL_TIM_PWM_Stop(user_pwm->htim, user_pwm->channel);
 }
 
 /**
@@ -64,12 +78,18 @@ uint32_t PWM_Set_Frequency(PWM_DRIVES *user_pwm, const uint32_t freq){
 
     const uint32_t compare_reg = (uint32_t)((float)(reload_reg + 1) * user_pwm->duty);
 
-    HAL_TIM_PWM_Stop(user_pwm->htim, user_pwm->channel);
+    const uint8_t is_running = HAL_TIM_PWM_GetState(user_pwm->htim) == HAL_TIM_STATE_BUSY;
+
+    if (is_running)
+        HAL_TIM_PWM_Stop(user_pwm->htim, user_pwm->channel);
+
     __HAL_TIM_SET_PRESCALER(user_pwm->htim, prescaler_reg);
     __HAL_TIM_SET_AUTORELOAD(user_pwm->htim, reload_reg);
     __HAL_TIM_SET_COMPARE(user_pwm->htim, user_pwm->channel, compare_reg);
     __HAL_TIM_SET_COUNTER(user_pwm->htim, 0);
-    HAL_TIM_PWM_Start(user_pwm->htim, user_pwm->channel);
+
+    if (is_running)
+        HAL_TIM_PWM_Start(user_pwm->htim, user_pwm->channel);
 
     return reload_reg;
 }
