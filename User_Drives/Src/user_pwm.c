@@ -11,16 +11,14 @@
 * @param user_pwm   PWM 驱动结构体指针
 * @param htim       定时器硬件句柄
 * @param channel    PWM 通道
-* @param tim_clock  APB 定时器时钟线的时钟频率
+* @param clock  APB 定时器时钟线的时钟频率
 */
-void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t channel, const uint32_t tim_clock){
-    memset(user_pwm, 0, sizeof(PWM_DRIVES));
-    
+void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t channel, const uint32_t clock){
     user_pwm->htim = htim;
     user_pwm->channel = channel;
-    user_pwm->clock = tim_clock;
-    user_pwm->freq = user_pwm->clock / ((htim->Init.Prescaler + 1) * (__HAL_TIM_GET_AUTORELOAD(user_pwm->htim) + 1));
-    user_pwm->duty = (float) __HAL_TIM_GET_COMPARE(user_pwm->htim, user_pwm->channel) / (float) (user_pwm->htim->Init.Period + 1);
+    user_pwm->clock = clock;
+    user_pwm->frequency = clock / ((htim->Init.Prescaler + 1) * (__HAL_TIM_GET_AUTORELOAD(htim) + 1));
+    user_pwm->duty = (float) __HAL_TIM_GET_COMPARE(htim, channel) / (float) (htim->Init.Period + 1);
 }
 
 /**
@@ -56,17 +54,17 @@ uint32_t PWM_Set_Duty(PWM_DRIVES *user_pwm, const float duty){
 /**
 * @brief 设置 PWM 频率
 * @param user_pwm  PWM 驱动结构体指针
-* @param freq PWM 输出频率 单位: Hz
+* @param frequency PWM 输出频率 单位: Hz
 * @return 自动重载寄存器的值
 */
-uint32_t PWM_Set_Frequency(PWM_DRIVES *user_pwm, const uint32_t freq){
-    user_pwm->freq = freq;
+uint32_t PWM_Set_Frequency(PWM_DRIVES *user_pwm, const uint32_t frequency){
+    user_pwm->frequency = frequency;
 
     uint32_t prescaler_reg = 0;
     uint32_t reload_reg = 0;
 
     for (prescaler_reg = 0; prescaler_reg <= 65535; prescaler_reg++) {
-        reload_reg = (uint32_t)ceilf((float)user_pwm->clock / (float)(freq * (prescaler_reg + 1))) - 1;
+        reload_reg = (uint32_t)ceilf((float)user_pwm->clock / (float)(frequency * (prescaler_reg + 1))) - 1;
         if (reload_reg <= 65535) {
             break;
         }
