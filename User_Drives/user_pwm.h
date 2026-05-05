@@ -2,7 +2,6 @@
 #define USER_PWM_H
 #include "main.h"
 #ifdef HAL_TIM_MODULE_ENABLED
-
 /* 类型定义 ------------------------------------------------------------------*/
 /**
 * @brief  PWM 驱动结构体
@@ -10,7 +9,7 @@
 typedef struct {
     TIM_HandleTypeDef *htim;  /* 定时器硬件句柄 */
     uint32_t channel;         /* PWM 通道 */
-    uint32_t clock;           /* 定时器计数（预分频后）频率 */
+    uint32_t clock;           /* APB 定时器时钟线的时钟频率 */
     uint32_t freq;            /* PWM 输出频率 */
     float duty;               /* PWM 占空比 (0.0 ~ 1.0) */
 } PWM_DRIVES;
