@@ -33,7 +33,6 @@ extern UART_DRIVES user_uart_debug;
 extern TIMER_DRIVES user_timer_ols;
 
 #include "../User_Application/open_logic_sniffer.h"
-extern OLS_DRIVES user_ols;
 
 
 #endif // USER_BSP_H

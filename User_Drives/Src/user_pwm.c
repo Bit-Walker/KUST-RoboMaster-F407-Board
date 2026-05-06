@@ -11,11 +11,13 @@
 * @param user_pwm   PWM 驱动结构体指针
 * @param htim       定时器硬件句柄
 * @param channel    PWM 通道
+* @param bit_width  PWM 位数
 * @param clock  APB 定时器时钟线的时钟频率
 */
-void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t channel, const uint32_t clock){
+void PWM_Init(PWM_DRIVES *user_pwm, TIM_HandleTypeDef *htim, const uint32_t channel, const PWM_BIT_WIDTH bit_width, const uint32_t clock){
     user_pwm->htim = htim;
     user_pwm->channel = channel;
+    user_pwm->bit_width = bit_width;
     user_pwm->clock = clock;
     user_pwm->frequency = clock / ((htim->Init.Prescaler + 1) * (__HAL_TIM_GET_AUTORELOAD(htim) + 1));
     user_pwm->duty = (float) __HAL_TIM_GET_COMPARE(htim, channel) / (float) (htim->Init.Period + 1);
@@ -63,14 +65,16 @@ uint32_t PWM_Set_Frequency(PWM_DRIVES *user_pwm, const uint32_t frequency){
     uint32_t prescaler_reg = 0;
     uint32_t reload_reg = 0;
 
-    for (prescaler_reg = 0; prescaler_reg <= 65535; prescaler_reg++) {
+    const uint32_t max_value = (user_pwm->bit_width == PWM_16BIT) ? 65535 : 4294967295;
+
+    for (prescaler_reg = 0; prescaler_reg <= max_value; prescaler_reg++) {
         reload_reg = (uint32_t)ceilf((float)user_pwm->clock / (float)(frequency * (prescaler_reg + 1))) - 1;
-        if (reload_reg <= 65535) {
+        if (reload_reg <= max_value) {
             break;
         }
     }
 
-    if (reload_reg > 65535) {
+    if (reload_reg > max_value) {
         return 0;
     }
 

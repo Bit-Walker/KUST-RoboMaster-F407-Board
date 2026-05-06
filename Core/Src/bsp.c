@@ -29,5 +29,3 @@ LED_DRIVES blue_led = {0};
 UART_DRIVES user_uart_debug = {0};
 
 TIMER_DRIVES user_timer_ols = {0};
-
-OLS_DRIVES user_ols = {0};

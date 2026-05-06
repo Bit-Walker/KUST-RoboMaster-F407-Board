@@ -60,7 +60,9 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-/**
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+                    /**
   * Initializes the Global MSP.
   */
 void HAL_MspInit(void)
