@@ -19,6 +19,8 @@ void LED_Init(LED_DRIVES* user_led, GPIO_TypeDef* GPIO, const uint16_t pin, cons
     user_led->GPIO = GPIO;
     user_led->pin = pin;
     user_led->is_reversal = is_reversal;
+
+    LED_Off(user_led);
 }
 
 /**
