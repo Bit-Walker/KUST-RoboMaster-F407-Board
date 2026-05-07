@@ -17,19 +17,6 @@ static volatile bool capture_done = false;
 /* 私有函数 ------------------------------------------------------------------*/
 static void OLS_SendCaptureData();
 
-
-/**
- * @brief  读取 GPIO 端口值
- * @param  port  GPIO 端口
- * @return 端口值
- */
-static inline uint8_t OLS_ReadGPIOPort(const GPIO_TypeDef *port) {
-    if (port == NULL) {
-        return 0;
-    }
-    return (uint8_t)(port->IDR & 0x00FF);
-}
-
 /**
  * @brief  限制读取计数在缓冲区范围内
  */
@@ -83,8 +70,7 @@ static void OLS_SendByte(const uint8_t byte) {
  * @brief  发送设备 ID
  */
 static void OLS_SendDeviceId(void) {
-    const uint8_t id[4] = {OLS_DEVICE_ID[0], OLS_DEVICE_ID[1],
-                           OLS_DEVICE_ID[2], OLS_DEVICE_ID[3]};
+    const uint8_t id[4] = {OLS_DEVICE_ID[0], OLS_DEVICE_ID[1], OLS_DEVICE_ID[2], OLS_DEVICE_ID[3]};
     OLS_SendBytes(id, 4);
 }
 
@@ -130,7 +116,7 @@ static void OLS_SendMetadata(void) {
  * @return 当前 GPIO 值
  */
 static uint8_t OLS_ReadInputData(void) {
-    return OLS_ReadGPIOPort(ols_instance.gpio_port);
+    return (uint8_t)(ols_instance.gpio_port->IDR & 0x00FF);
 }
 
 /**
@@ -219,8 +205,7 @@ static void OLS_SendCaptureData(void) {
 
         while (sent < total_samples) {
             const uint32_t remaining = total_samples - sent;
-            const uint32_t chunk_size = (remaining > OLS_TX_BUFFER_SIZE) ?
-                                         OLS_TX_BUFFER_SIZE : remaining;
+            const uint32_t chunk_size = (remaining > OLS_TX_BUFFER_SIZE) ? OLS_TX_BUFFER_SIZE : remaining;
 
             for (uint32_t i = 0; i < chunk_size; i++) {
                 const uint32_t buffer_idx = total_samples - 1 - sent - i;
@@ -286,9 +271,7 @@ static void OLS_HandleCommand(const uint8_t cmd, const uint8_t *data) {
 
         case OLS_CMD_SET_DIVIDER:
             if (data != NULL) {
-                const uint32_t libsigrok_divider = (uint32_t)data[0] |
-                                                   ((uint32_t)data[1] << 8) |
-                                                   ((uint32_t)data[2] << 16);
+                const uint32_t libsigrok_divider = (uint32_t)data[0] | (uint32_t)data[1] << 8 | (uint32_t)data[2] << 16;
                 ols_instance.divider = libsigrok_divider;
                 ols_instance.sample_rate = OLS_LIBSIGROK_CLOCK_RATE / (libsigrok_divider + 1U);
             }
@@ -317,10 +300,7 @@ static void OLS_HandleCommand(const uint8_t cmd, const uint8_t *data) {
             if (data != NULL) {
                 const uint8_t stage = (uint8_t)((cmd - OLS_CMD_SET_TRIGGER_MASK0) / 4U);
                 if (stage < OLS_MAX_TRIGGER_STAGES) {
-                    ols_instance.trigger.mask[stage] = (uint32_t)data[0] |
-                                              ((uint32_t)data[1] << 8) |
-                                              ((uint32_t)data[2] << 16) |
-                                              ((uint32_t)data[3] << 24);
+                    ols_instance.trigger.mask[stage] = (uint32_t)data[0] | (uint32_t)data[1] << 8  | (uint32_t)data[2] << 16 | (uint32_t)data[3] << 24;
                 }
             }
             break;
@@ -332,10 +312,7 @@ static void OLS_HandleCommand(const uint8_t cmd, const uint8_t *data) {
             if (data != NULL) {
                 const uint8_t stage = (uint8_t)((cmd - OLS_CMD_SET_TRIGGER_VALUE0) / 4U);
                 if (stage < OLS_MAX_TRIGGER_STAGES) {
-                    ols_instance.trigger.value[stage] = (uint32_t)data[0] |
-                                                ((uint32_t)data[1] << 8) |
-                                                ((uint32_t)data[2] << 16) |
-                                                ((uint32_t)data[3] << 24);
+                    ols_instance.trigger.value[stage] = (uint32_t)data[0] | (uint32_t)data[1] << 8  | (uint32_t)data[2] << 16 | (uint32_t)data[3] << 24;
                 }
             }
             break;
@@ -402,12 +379,8 @@ void OLS_Init(UART_DRIVES *uart, TIMER_DRIVES *timer, GPIO_TypeDef *gpio_port) {
     ols_instance.gpio_port = gpio_port;
     ols_instance.sample_buffer = sample_buffer;
     ols_instance.buffer_size = OLS_SAMPLE_BUFFER_SIZE;
-    ols_instance.sample_count = 0;
     ols_instance.sample_rate = OLS_MAX_SAMPLE_RATE;
-    ols_instance.divider = 0;
     ols_instance.read_count = OLS_DEFAULT_READ_COUNT;
-    ols_instance.delay_count = 0;
-    ols_instance.flags = 0;
     ols_instance.trigger.num_stages = 1;
     ols_instance.trigger.mask[0] = 0xFF;
     ols_instance.trigger.value[0] = 0x00;
@@ -416,11 +389,10 @@ void OLS_Init(UART_DRIVES *uart, TIMER_DRIVES *timer, GPIO_TypeDef *gpio_port) {
     ols_instance.xon_xoff = true;
     ols_instance.rle_enabled = false;
 
-    cmd_index = 0;
+    TIMER_Set_Frequency(timer, OLS_MAX_SAMPLE_RATE);
 
     UART_RegisterCallback(uart, OLS_UARTCallback);
     TIMER_RegisterCallback(timer, OLS_SampleCallback);
-    TIMER_Set_Frequency(timer, OLS_MAX_SAMPLE_RATE);
 
 }
 

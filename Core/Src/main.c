@@ -105,13 +105,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   LED_Init(&blue_led, GPIOC, GPIO_PIN_13, 1);
-
   UART_Init(&user_uart_debug, &huart1);
   
   /* 初始化 OLS 逻辑分析仪 */
   TIMER_Init(&user_timer_ols, &htim1, HAL_RCC_GetPCLK2Freq() * 2);
   OLS_Init(&user_uart_debug, &user_timer_ols, GPIOA);
-  
+
   /* 启动 TIM2 PWM 输出用于测试逻辑分析仪 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 
