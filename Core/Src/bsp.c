@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "../../User_Algorithm/user_coord.h"
 
+UART_DRIVES uart_text={0};
+
 
 /* 主循环注册表 --------------------------------------------------------------*/
 void (*loop_event[MAX_LOOP_EVENT])(void) = {0};

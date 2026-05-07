@@ -6,6 +6,9 @@
 #include "../../SEGGER_RTT/SEGGER_RTT.h"
 #include "../../User_Architect/user_systick.h"
 
+#include "user_uart.h"
+extern UART_DRIVES uart_text;
+
 
 /* 全局注册表 ----------------------------------------------------------------*/
 #define MAX_LOOP_EVENT 32
