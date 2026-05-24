@@ -27,5 +27,46 @@ uint8_t JScope_RTT_UpBuffer[BUFFER_SIZE_UP] = {0};
 LED_DRIVES blue_led = {0};
 
 UART_DRIVES user_uart_debug = {0};
+void user_uart_(void* user_uart);
 
 TIMER_DRIVES user_timer_ols = {0};
+
+// 蜂鸣器
+BUZZER_DRIVES user_buzzer_1 = {0};
+
+// 启动音乐
+STARTUP_MUSIC_DRIVES user_startup_music = {0};
+SysTick_Task user_startup_music_task = {0};
+
+// LED 闪烁
+SysTick_Task LED_Blink_Task = {0};
+void LED_Blink_Callback(void *arg) {
+    // const LED_DRIVES* led = (LED_DRIVES*)arg;
+    // LED_Toggle(led);
+
+    static uint8_t led_state = 0;
+
+    if (led_state == 0x00) {
+        led_state = 0x01;
+    }
+
+    if (key0_state == 0)
+        GPIOA->ODR = ~led_state;
+    else
+        GPIOA->ODR = led_state;
+
+    led_state <<= 1;
+}
+
+
+// 状态灯
+LED_DRIVES user_led = {0};
+
+
+uint8_t key0_state = {0};
+uint8_t key1_state = {0};
+uint8_t key2_state = {0};
+
+
+// PWM
+PWM_DRIVES user_pwm_1 = {0};

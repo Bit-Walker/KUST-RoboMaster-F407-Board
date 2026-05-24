@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp.h"
+#include "math.h"
 
 /* USER CODE END Includes */
 
@@ -188,6 +189,62 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
+
+  static uint32_t key0_cnt = 0;
+  static uint32_t key1_cnt = 0;
+  static uint32_t key2_cnt = 0;
+
+  static uint8_t key0_pressed = 0;
+  static uint8_t key1_pressed = 0;
+  static uint8_t key2_pressed = 0;
+
+  if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == GPIO_PIN_RESET)
+    key0_cnt++;
+  else
+    key0_cnt = 0;
+  if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_3) == GPIO_PIN_RESET)
+    key1_cnt++;
+  else
+    key1_cnt = 0;
+  if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2) == GPIO_PIN_RESET)
+    key2_cnt++;
+  else
+    key2_cnt = 0;
+
+  if (key0_cnt > 100 && key0_pressed == 0) {
+    key0_state = key0_state == 0;
+    key0_pressed = 1;
+  }
+  if (key1_cnt > 100 && key1_pressed == 0) {
+    StartupMusic_Start(&user_startup_music);
+    key1_state = key1_state == 0;
+    key1_pressed = 1;
+  }
+  if (key2_cnt > 100 && key2_pressed == 0) {
+    if (user_startup_music.state == MUSIC_PLAYING) {
+      user_startup_music.state = MUSIC_IDLE;
+      Buzzer_Off(&user_buzzer_1);
+    }
+    else
+      user_startup_music.state = MUSIC_PLAYING;
+    key2_state = key2_state == 0;
+    key2_pressed = 1;
+  }
+
+  if (key0_cnt == 0 && key0_pressed == 1)
+    key0_pressed = 0;
+  if (key1_cnt == 0 && key1_pressed == 1)
+    key1_pressed = 0;
+  if (key2_cnt == 0 && key2_pressed == 1)
+    key2_pressed = 0;
+
+
+  PWM_Set_Duty(&user_pwm_1,(sinf((float)HAL_GetTick()/400.0f) + 1) / 2.0f);
+
+  uint8_t data = 0;
+  if (UART_GetDataWithLen(&user_uart_debug, &data, 1)) {
+
+  }
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
